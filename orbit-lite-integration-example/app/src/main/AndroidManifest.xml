@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.element.example">
 
+    <uses-permission android:name="com.element.palm.portal.READ_PROVIDER" />
+    <uses-permission android:name="com.element.palm.portal.WRITE_PROVIDER" />
+
     <application
         android:name=".ElementSDKExampleApplication"
         android:allowBackup="false"
@@ -27,8 +30,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
-            android:name="com.element.ApiKey"
-            android:value="[YOUR_API_KEY]" />
+            android:name="com.element.EAK"
+            android:value="[YOUR_EAK]" />
+
     </application>
 
 </manifest>

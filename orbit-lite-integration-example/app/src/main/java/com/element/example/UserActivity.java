@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ public class UserActivity extends AppCompatActivity implements ElementSDKManager
     private EditText editText;
     private EditText extraInfoEditText;
     private PrefsManager prefsManager;
-    private FloatingActionButton fab;
+    private Button save;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,8 +38,8 @@ public class UserActivity extends AppCompatActivity implements ElementSDKManager
         setSupportActionBar(toolbar);
         editText = findViewById(R.id.edit_text);
         extraInfoEditText = findViewById(R.id.extraInfo_editText);
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        save = findViewById(R.id.save);
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 HashMap<String, String> extras = null;
@@ -54,7 +55,7 @@ public class UserActivity extends AppCompatActivity implements ElementSDKManager
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    fab.callOnClick();
+                    save.callOnClick();
                     return true;
                 }
                 return false;

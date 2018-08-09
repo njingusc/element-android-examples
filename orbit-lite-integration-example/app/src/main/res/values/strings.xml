@@ -4,5 +4,6 @@
     <string name="enroll_user">Enroll User</string>
     <string name="msg_request_sync">Syncing user data…</string>
     <string name="msg_request_identification">Searching for the user - please scan your palm</string>
+    <string name="msg_request_auth">Verifying the user - please scan your palm</string>
     <string name="msg_request_enroll">Creating the user account - please follow the instructions to scan your palm</string>
 </resources>

@@ -519,6 +519,43 @@ pre.editor-colors .fold-marker:after {
 .syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
   color: #56b6c2;
 }
+.syntax--ng.syntax--interpolation {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation.syntax--begin,
+.syntax--ng.syntax--interpolation.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--function {
+  color: #e06c75;
+}
+.syntax--ng.syntax--interpolation .syntax--function.syntax--begin,
+.syntax--ng.syntax--interpolation .syntax--function.syntax--end {
+  color: #61afef;
+}
+.syntax--ng.syntax--interpolation .syntax--bool {
+  color: #d19a66;
+}
+.syntax--ng.syntax--interpolation .syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--pipe,
+.syntax--ng.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--ng.syntax--tag {
+  color: #56b6c2;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--attribute-name {
+  color: #e5c07b;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string {
+  color: #c678dd;
+}
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--begin,
+.syntax--ng.syntax--attribute-with-value .syntax--string.syntax--end {
+  color: #abb2bf;
+}
 .syntax--source.syntax--ruby .syntax--constant.syntax--other.syntax--symbol > .syntax--punctuation {
   color: inherit;
 }
@@ -538,10 +575,10 @@ pre.editor-colors .fold-marker:after {
 <h3 id="setup-with-android-studio">Setup with Android Studio</h3>
 <h4 id="import-orbit-lite">Import <em>Orbit Lite</em></h4>
 <ol>
-<li>Download the latest <a href="https://github.com/Element1/element-android-examples/blob/master/orbit-lite-integration-example/orbitlite-release-aar/orbitlite-61918-release.aar"><em>orbitlite-release.aar</em></a> file.</li>
+<li>Download the latest <a href="https://github.com/Element1/element-android-examples/blob/master/orbit-lite-integration-example/orbitlite-release-aar/orbitlite-release.aar"><em>orbitlite-release.aar</em></a> file.</li>
 <li>Open your project in Android Studio.</li>
 <li>On the top menu bar, click <em>File-&gt;New-&gt;New Module-&gt;Import .aar/.jar libraries-&gt;Next</em>.</li>
-<li>In the next window, choose the path to _ orbitlite.aar_ in the <em>File Name</em> field, and type in <em>orbitlite</em> in the <em>Subproject name</em> field.</li>
+<li>In the next window, choose the path to _ orbitlite-release.aar_ in the <em>File Name</em> field, and type in <em>orbitlite</em> in the <em>Subproject name</em> field.</li>
 <li>Click the <em>Finish</em> button and wait for Android Studio to finish building the project.</li>
 </ol>
 <h4 id="refer-to-orbit-lite-as-a-project-dependency">Refer to <em>Orbit Lite</em> as a project dependency</h4>
@@ -552,22 +589,25 @@ pre.editor-colors .fold-marker:after {
 </ol>
 <h3 id="integrating-orbit-lite-into-your-application">Integrating <em>Orbit Lite</em> into your application</h3>
 <ul>
-<li>In AndroidManifest.xml, declare your api key in a meta-data tag.<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&lt;manifest&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;.....</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&lt;application&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.....</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta-data</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:name="com.element.ApiKey"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:value="[YOUR_API_KEY]"/&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.....</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&lt;/application&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&lt;/manifest&gt;</span></span></div></pre></li>
+<li>In AndroidManifest.xml, declare your EAK in a meta-data tag.<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&lt;manifest&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;.....</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&lt;application&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.....</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta-data</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:name="com.element.EAK"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:value="[YOUR_EAK]"/&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.....</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&lt;/application&gt;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&lt;/manifest&gt;</span></span></div></pre></li>
 </ul>
 <h3 id="implementation-of-the-key-classes">Implementation of the key classes</h3>
 <p>This is our <em><a href="https://element1.github.io/element-android-examples/">JavaDoc</a></em></p>
 <h4 id="elementsdkmanager"><em>ElementSDKManager</em></h4>
 <p><em>ElementSDKManager</em> defines a set of handy functions to send out requests to <em>Element SDK Library</em>.</p>
 <ul>
-<li>initElementSDK(Context context): request to initialize the Element SDK Library. You should call this method in <em>onCreate()</em> of your application class. Otherwise syncing data will not work.</li>
+<li>initElementSDK(Context context): request to initialize the Element SDK Library. If this is not called before the first SDK request, an "Unauthorized" error is presented. At a minimum, this method should be called in <em>onCreate()</em> of your application class, or when the app comes to the foreground.</li>
 <li>enrollNewUser(Activity activity, String userName, HashMap&lt;String,String&gt; extras): request to add a new user</li>
 <li>identifyUser(Activity activity, ArrayList elementUserIds): look through the list of user ids specified to find a user via their palm</li>
+<li>authenticateUser(Activity activity, String elementUserId): authenticate the specified user via their palm    </li>
 <li>requestSyncState(Activity activity, ArrayList elementUserIds, final SyncStateListener listener): request the sync information for the users in the list. Pass an empty list to get sync state for all users</li>
 </ul>
 <h4 id="listeners"><em>Listeners</em></h4>
-<p><em>EnrollListener</em> is used to receive Enroll results from <em>Element SDK Library</em>.
-<em>SearchListener</em> is used to receive Search results from <em>Element SDK Library</em>.
-<em>SyncStateListener</em> is used to receive SyncState results from <em>Element SDK Library</em>.</p>
+<p>Used to receive results from <em>Element SDK Library</em>.
+<em>EnrollListener</em> is used for Enroll.
+<em>SearchListener</em> is used for Search.
+<em>AuthListener</em> is used for Authentication.
+<em>SyncStateListener</em> is used to receive SyncState results.</p>
 <p>Call <em>ElementSDKManager.onActivityResult()</em> with an instance of one or all of these listeners to receive the appropriate callbacks after making a request.</p>
 <pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>public&nbsp;class&nbsp;MainActivity&nbsp;extends&nbsp;AppCompatActivity&nbsp;implements&nbsp;ElementSDKManager.EnrollListener,&nbsp;ElementSDKManager.SearchListener,&nbsp;ElementSDKManager.SyncStateListener{</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;@Override</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;void&nbsp;onActivityResult(int&nbsp;requestCode,&nbsp;int&nbsp;resultCode,&nbsp;Intent&nbsp;data)&nbsp;{</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super.onActivityResult(requestCode,&nbsp;resultCode,&nbsp;data);</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElementSDKManager.onActivityResult(requestCode,&nbsp;resultCode,&nbsp;data,&nbsp;this);</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>}</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div></pre><h4 id="elementsyncstate"><em>ElementSyncState</em></h4>
 <p> Data classes are the informative packets that are delivered between <em>Element SDK Library</em> &amp; <em>Orbit Lite</em>.</p>

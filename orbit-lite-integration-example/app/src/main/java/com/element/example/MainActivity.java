@@ -21,7 +21,7 @@ import java.util.List;
 
 import static com.element.example.ElementSDKExampleApplication.LOG_TAG;
 
-public class MainActivity extends AppCompatActivity implements ElementSDKManager.SearchListener, ElementSDKManager.SyncStateListener {
+public class MainActivity extends AppCompatActivity implements ElementSDKManager.SearchListener, ElementSDKManager.SyncStateListener, ElementSDKManager.AuthListener {
 
     static final String KEY_DEMO_USER_LIST = "demo_user_list";
 
@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements ElementSDKManager
 
     public void clickOnUserDataRow(DemoAppUser demoAppUser) {
         Log.v(LOG_TAG, "demoAppUser: " + demoAppUser.name);
+
+        Toast.makeText(getBaseContext(), R.string.msg_request_auth, Toast.LENGTH_LONG).show();
+        ElementSDKManager.authenticateUser(MainActivity.this, demoAppUser.elementId);
     }
 
     @Override
@@ -173,4 +176,21 @@ public class MainActivity extends AppCompatActivity implements ElementSDKManager
         return returnVal;
     }
 
+    @Override
+    public void onAuthSuccess(String userId) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Results: ID = " + userId).show();
+
+        Toast.makeText(this, "found " + userId, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAuthFailed(String userId) {
+        Toast.makeText(this, "User Not Verified", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAuthCanceled() {
+        Log.i(TAG, "Auth Canceled");
+    }
 }
