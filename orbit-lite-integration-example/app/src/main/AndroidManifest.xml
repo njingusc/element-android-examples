@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.element.example">
-
+    
     <uses-permission android:name="com.element.palm.portal.READ_PROVIDER" />
     <uses-permission android:name="com.element.palm.portal.WRITE_PROVIDER" />
 
@@ -31,7 +31,7 @@
 
         <meta-data
             android:name="com.element.EAK"
-            android:value="[YOUR_EAK]" />
+            android:value="[YOUR EAK]"/>
 
     </application>
 

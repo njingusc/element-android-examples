@@ -2,26 +2,30 @@ package com.element.example;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.element.utils.ElementSDKManager;
-
 import java.util.List;
-
-import static com.element.example.ElementSDKExampleApplication.LOG_TAG;
 
 class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MyViewHolder> {
 
     List<DemoAppUser> data;
-    private com.element.example.MainActivity mainActivity;
+    private UserListActionListener listener;
 
-    MainRecyclerAdapter(List<DemoAppUser> data, com.element.example.MainActivity activity) {
+    MainRecyclerAdapter(UserListActionListener listener) {
+        this.listener = listener;
+    }
+
+    public void setData(List<DemoAppUser> data) {
         this.data = data;
-        this.mainActivity = activity;
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
     }
 
     @NonNull
@@ -32,25 +36,23 @@ class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MyVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int position) {
-        myViewHolder.name.setText(data.get(position).name);
+    public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int position) {
+        final DemoAppUser user = data.get(position);
+
+        myViewHolder.name.setText(user.name);
         myViewHolder.extraInfo.setVisibility(View.GONE);
 
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.clickOnUserDataRow(data.get(position));
+                listener.onClickUser(user);
             }
         });
 
         myViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Log.v(LOG_TAG, "user info: " + data.get(position).name + " id = " + data.get(position).elementId);
-                String elementId = data.get(position).elementId;
-                ElementSDKManager.deleteUser(mainActivity, data.remove(position).elementId);
-                notifyDataSetChanged();
-                mainActivity.deleteUser(elementId);
+                listener.onLongClickUser(user, myViewHolder.getAdapterPosition());
                 return true;
             }
         });
@@ -65,19 +67,21 @@ class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MyVie
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        View itemView;
         TextView name;
         TextView extraInfo;
         TextView status;
 
         MyViewHolder(View view) {
             super(view);
-            itemView = view;
             name = view.findViewById(R.id.name);
             extraInfo = view.findViewById(R.id.extraInfo);
             status = view.findViewById(R.id.status);
         }
+    }
+
+    interface UserListActionListener {
+        void onClickUser(DemoAppUser user);
+        void onLongClickUser(DemoAppUser user, int position);
     }
 }
 

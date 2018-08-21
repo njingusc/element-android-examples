@@ -570,8 +570,19 @@ pre.editor-colors .fold-marker:after {
 }
 </style>
   </head>
-  <body class='markdown-preview' data-use-github-style><h1 id="element-android-examples">element-android-examples</h1>
+  <body class='markdown-preview' data-use-github-style><p><img title="element" alt="element" src="https://github.com/Element1/element-android-examples/raw/master/element-face-sdk-example/images/element.png"></p>
+<h1 id="element-android-examples">element-android-examples</h1>
 <p><em>Element SDK Library</em> is a standalone Android application that enables the creation of biometrics models that can be used to identify users. <em>Element Orbit</em> is the Android library providing interfaces to communicate with <em>Element SDK Library</em>. This document contains information to integrate <em>Orbit Lite</em> into an Android application by using Android Studio.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="element-dashboard">Element Dashboard</h3>
+<p>The Element Dashboard is <a href="https://dashboard.discoverelement.com/login">here</a>. An account is required to access the Element Dashboard.</p>
+<h3 id="register-the-application-id-app-id-to-element-and-obtain-the-encrypted-access-key-eak-">Register the Application Id (App Id) to Element and obtain the Encrypted Access Key (EAK)</h3>
+<p>The Element SDK requires the Encrypted Access Key (EAK) file. The EAK carries encrypted information including the <a href="https://developer.android.com/studio/build/application-id">Application Id (App Id)</a>. The App Id in the EAK will need to match the id of the running application on an Android device. The EAK is also available on Element Dashboard, under Account -&gt; SDK.</p>
+<ul>
+<li>Fill the App Id field with your application id, and click on Create EAK.</li>
+<li>Download the EAK file.</li>
+</ul>
+<p><img title="create-eak" alt="dashboard-create-eak" src="https://github.com/Element1/element-android-examples/raw/master/element-face-sdk-example/images/dashboard-create-eak.jpg"></p>
 <h3 id="setup-with-android-studio">Setup with Android Studio</h3>
 <h4 id="import-orbit-lite">Import <em>Orbit Lite</em></h4>
 <ol>
@@ -601,6 +612,8 @@ pre.editor-colors .fold-marker:after {
 <li>identifyUser(Activity activity, ArrayList elementUserIds): look through the list of user ids specified to find a user via their palm</li>
 <li>authenticateUser(Activity activity, String elementUserId): authenticate the specified user via their palm    </li>
 <li>requestSyncState(Activity activity, ArrayList elementUserIds, final SyncStateListener listener): request the sync information for the users in the list. Pass an empty list to get sync state for all users</li>
+<li>requestServerSync(Context context): ask the SDK to refresh it's data from the server</li>
+<li>cursorToSyncState(Cursor cursor): convert a LoaderCallbacks Cursor to ElementSyncState and make the data accessible</li>
 </ul>
 <h4 id="listeners"><em>Listeners</em></h4>
 <p>Used to receive results from <em>Element SDK Library</em>.
@@ -608,6 +621,7 @@ pre.editor-colors .fold-marker:after {
 <em>SearchListener</em> is used for Search.
 <em>AuthListener</em> is used for Authentication.
 <em>SyncStateListener</em> is used to receive SyncState results.</p>
+<p><em>ElementSDKManager.getCursorLoader</em> is available to listen to the Element ContentProvider using LoaderManager.LoaderCallbacks. This is preferable to requestSyncState() which only polls.</p>
 <p>Call <em>ElementSDKManager.onActivityResult()</em> with an instance of one or all of these listeners to receive the appropriate callbacks after making a request.</p>
 <pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>public&nbsp;class&nbsp;MainActivity&nbsp;extends&nbsp;AppCompatActivity&nbsp;implements&nbsp;ElementSDKManager.EnrollListener,&nbsp;ElementSDKManager.SearchListener,&nbsp;ElementSDKManager.SyncStateListener{</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;@Override</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;protected&nbsp;void&nbsp;onActivityResult(int&nbsp;requestCode,&nbsp;int&nbsp;resultCode,&nbsp;Intent&nbsp;data)&nbsp;{</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super.onActivityResult(requestCode,&nbsp;resultCode,&nbsp;data);</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElementSDKManager.onActivityResult(requestCode,&nbsp;resultCode,&nbsp;data,&nbsp;this);</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>}</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div></pre><h4 id="elementsyncstate"><em>ElementSyncState</em></h4>
 <p> Data classes are the informative packets that are delivered between <em>Element SDK Library</em> &amp; <em>Orbit Lite</em>.</p>

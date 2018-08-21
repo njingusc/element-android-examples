@@ -1,6 +1,19 @@
+![element](https://github.com/Element1/element-android-examples/raw/master/element-face-sdk-example/images/element.png "element")
 # element-android-examples
 
 _Element SDK Library_ is a standalone Android application that enables the creation of biometrics models that can be used to identify users. _Element Orbit_ is the Android library providing interfaces to communicate with _Element SDK Library_. This document contains information to integrate _Orbit Lite_ into an Android application by using Android Studio.
+
+## Prerequisites
+### Element Dashboard
+The Element Dashboard is [here](https://dashboard.discoverelement.com/login). An account is required to access the Element Dashboard.
+
+### Register the Application Id (App Id) to Element and obtain the Encrypted Access Key (EAK)
+The Element SDK requires the Encrypted Access Key (EAK) file. The EAK carries encrypted information including the [Application Id (App Id)](https://developer.android.com/studio/build/application-id). The App Id in the EAK will need to match the id of the running application on an Android device. The EAK is also available on Element Dashboard, under Account -> SDK.
+- Fill the App Id field with your application id, and click on Create EAK.
+- Download the EAK file.
+
+![dashboard-create-eak](https://github.com/Element1/element-android-examples/raw/master/element-face-sdk-example/images/dashboard-create-eak.jpg "create-eak")
+
 
 ### Setup with Android Studio
 #### Import _Orbit Lite_
@@ -36,11 +49,14 @@ This is our _[JavaDoc](https://element1.github.io/element-android-examples/)_
 
 #### _ElementSDKManager_
 _ElementSDKManager_ defines a set of handy functions to send out requests to _Element SDK Library_.
+
 * initElementSDK(Context context): request to initialize the Element SDK Library. If this is not called before the first SDK request, an "Unauthorized" error is presented. At a minimum, this method should be called in _onCreate()_ of your application class, or when the app comes to the foreground.
 * enrollNewUser(Activity activity, String userName, HashMap<String,String> extras): request to add a new user
 * identifyUser(Activity activity, ArrayList<String> elementUserIds): look through the list of user ids specified to find a user via their palm
 * authenticateUser(Activity activity, String elementUserId): authenticate the specified user via their palm    
 * requestSyncState(Activity activity, ArrayList<String> elementUserIds, final SyncStateListener listener): request the sync information for the users in the list. Pass an empty list to get sync state for all users
+* requestServerSync(Context context): ask the SDK to refresh it's data from the server
+* cursorToSyncState(Cursor cursor): convert a LoaderCallbacks Cursor to ElementSyncState and make the data accessible
 
 #### _Listeners_
 Used to receive results from _Element SDK Library_.
@@ -48,6 +64,8 @@ _EnrollListener_ is used for Enroll.
 _SearchListener_ is used for Search.
 _AuthListener_ is used for Authentication.
 _SyncStateListener_ is used to receive SyncState results.
+
+_ElementSDKManager.getCursorLoader_ is available to listen to the Element ContentProvider using LoaderManager.LoaderCallbacks<Cursor>. This is preferable to requestSyncState() which only polls.
 
 Call _ElementSDKManager.onActivityResult()_ with an instance of one or all of these listeners to receive the appropriate callbacks after making a request.
 
