@@ -5,7 +5,7 @@ _Element SDK Library_ is a standalone Android application that enables the creat
 
 ## Prerequisites
 ### Element Dashboard
-The Element Dashboard is [here](https://dashboard.discoverelement.com/login). An account is required to access the Element Dashboard.
+The Element Dashboard is the gateway to the assets in order to use the Element Face SDK. The URL of the Element Dashboard varies based on your region. Also an account is required to access the Element Dashboard. Please contact Element for more information.
 
 ### Register the Application Id (App Id) to Element and obtain the Encrypted Access Key (EAK)
 The Element SDK requires the Encrypted Access Key (EAK) file. The EAK carries encrypted information including the [Application Id (App Id)](https://developer.android.com/studio/build/application-id). The App Id in the EAK will need to match the id of the running application on an Android device. The EAK is also available on Element Dashboard, under Account -> SDK.
