@@ -29,8 +29,7 @@ android {
 dependencies {
     implementation project(path: ':elemet-fm-sdk')
 
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:+'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.android.support:design:27.1.0'
 
     implementation 'com.amazonaws:aws-android-sdk-core:2.6.+'

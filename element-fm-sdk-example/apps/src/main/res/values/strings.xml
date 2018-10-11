@@ -1,11 +1,5 @@
 <resources>
-    <string name="app_name">Element FM Demo</string>
-    <string name="query">Query</string>
-    <string name="user_id">User Id</string>
-    <string name="user_not_available">Invalid user Id</string>
-    <string name="user_existed">User existed</string>
-    <string name="wait_for_fm">Waiting for face matching results</string>
-    <string name="auth_cancelled">Authentication cancelled</string>
-    <string name="msg_verified">verified %1$s</string>
-    <string name="msg_not_verified">not verified</string>
+    <string name="user_id">MOCK_USER_ID</string>
+    <string name="fm_url">MOCK_URL</string>
+    <string name="api_key">MOCK_API</string>
 </resources>

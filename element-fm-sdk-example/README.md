@@ -1,6 +1,6 @@
 ![element](https://github.com/Element1/element-android-examples/raw/master/element-face-sdk-example/images/element.png "element")
 # Element FM SDK
-The Element FM (Face Matching) SDK provides an API library to identify users by taking face images on Android devices. The images will be processed on a server in order to obtain the identification results. This document contains information to integrate the Element FM SDK into an Android application by using Android Studio.
+The Element FM (Face Matching) SDK provides an API library to authenticate users by taking selfie images on Android devices. The images will be processed on a server in order to obtain the matching results. This document contains information to integrate the Element FM SDK into an Android application by using Android Studio.
 
 ## Version Support
 - The Element FM SDK supports Android 5.0+ / API 21+ (Lollipop and up)
@@ -13,7 +13,7 @@ The Element FM (Face Matching) SDK provides an API library to identify users by 
 
 ## Prerequisites
 ### Element Dashboard
-The Element Dashboard is the gateway to the assets in order to use the Element FM SDK. The URL of the Element Dashboard varies based on your region. Also an account is required to access the Element Dashboard. Please contact [Element](https://github.com/Element1/android-examples-private/tree/feat/fm/element-fm-sdk-example#questions) for more information.
+The Element Dashboard is the gateway to the assets in order to use the Element FM SDK. The URL of the Element Dashboard varies based on your region. Also an account is required to access the Element Dashboard. Please contact [Element](https://github.com/Element1/element-android-examples/tree/master/element-fm-sdk-example#questions) for more information.
 
 ### AAR
 The Element FM SDK is in the [AAR](https://developer.android.com/studio/projects/android-library) format. Download the AAR:
@@ -103,72 +103,24 @@ The Element FM SDK requires the *Encrypted Access Key* (*EAK*) file. The *EAK* f
     For the Android Marshmallow 6.0 (API 23) OS and up, make sure the permissions are granted before starting any Activity provided by the Element FM SDK.
 
 ### User face matching
-The Element FM SDK utilizes the `ElementFaceMatchingActivity` for face matching. It's based on the [`startActivityForResult`](https://developer.android.com/reference/android/app/Activity#onActivityResult(int,%20int,%20android.content.Intent) method.
-1. Declare a request code:
-    ```
-        public static final int FM_REQ_CODE = 25600;
-    ```
-1. Start the `ElementFaceMatchingActivity`:
-    ```
-        Intent intent = new Intent(MainActivity.this, ElementFaceMatchingActivity.class);
-        intent.putExtra(ElementFaceMatchingActivity.EXTRA_ELEMENT_USER_ID, userId);
-        startActivityForResult(intent, FM_REQ_CODE);
-    ```
-1. Override the [`onActivityResult`](https://developer.android.com/reference/android/app/Activity#onActivityResult(int,%20int,%20android.content.Intent) method to receive the matching results:
-    ```
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-          if (requestCode == FM_REQ_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-              String results = data.getStringExtra(ElementFaceMatchingActivity.EXTRA_AUTH_RESULTS);
-              if (ElementFaceAuthActivity.USER_VERIFIED.equals(results)) {
-                  // The user is verified
-              } else {
-                  // The user is not verified
-              }
-            } else {
-              // Verification cancelled
-            }
+The Element FM SDK utilizes the `ElementFaceCaptureActivity` for face matching. It allows capturing selfies for further processing.
+1. Create a child class of the `ElementFaceCaptureActivity`
+1. Override the `onImageCaptured(Capture[] captures)` to receive the selfie images
+1. The `Capture` class contains the image data in bytes. Covert it if necessary
+1. Sent the captured image data to the server
+```
+    public class FmActivity extends ElementFaceCaptureActivity {
+      @Override
+      public void onImageCaptured(Capture[] captures) {
+          for (Capture capture : captures) {
+              String encoded = Base64.encodeToString(capture.data, Base64.DEFAULT);
           }
-        }
-    ```
-1. Declare the `ElementFaceMatchingActivity` in AndroidManifest.xml:
-    ```
-        <manifest>
           .....
-          <application android:name=".MainApplication">
-            .....
-            <activity android:name="com.element.camera.ElementFaceMatchingActivity"             
-              android:clearTaskOnLaunch="true"          
-              android:hardwareAccelerated="true" />
-            .....
-          </application>
-        </manifest>
-    ```
-
-### User enquiries
-The Element FM SDK provides a AsyncTask to query users from the server.
-- Implement UserQueryTask.Callback
-    ```
-        UserQueryTask.Callback callback = new UserQueryTask.Callback() {
-          @Override
-          public void onResult(UserQueryTask.UserQueryResult result) {
-            ...
-            if (result.isSuccess()) {
-              ProviderUtil.insertUserInfo(getContext(), userInfo);
-              ...
-            } else if (result.isTimeout()) {
-              ...
-            } else {
-
-            }
-          }
-        }
-    ```
-- Invoke UserQueryTask
-    ```
-        new UserQueryTask(callback, getPackageName(), userId).execute();
-    ```
+          new FmTask(faceMatchingTaskCallback).execute(getId(), captures);
+          .....
+      }
+    }
+```
 
 ### Questions?
 If you have questions, please contact devsupport@discoverelement.com.
