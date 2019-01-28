@@ -106,7 +106,7 @@ The Element Face SDK requires the *Encrypted Access Key* (*EAK*) file. The *EAK*
 The Element Face SDK utilizes the `ElementFaceEnrollActivity` for user enrollment. It's based on the [`startActivityForResult`](https://developer.android.com/reference/android/app/Activity#onActivityResult(int,%20int,%20android.content.Intent)) method.
 1. Enroll a user and obtain the `UserInfo`. The `UserInfo` contains a unique `userId` (ElementId). The pair of the userId and the appId (`context.getPackageName()`) is mainly used in the Element Face SDK to inquire the user's information and status. In the `Activity` where you want to start the enrollment process:
     ```
-        UserInfo userInfo = UserInfo.enrollUser(
+        UserInfo userInfo = UserInfo.enrollNewUser(
           getBaseContext(),
           getPackageName(),
           firstName,
@@ -168,7 +168,7 @@ User authentication is similar to user enrollment, using `ElementFaceAuthActivit
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
           if (requestCode == AUTH_REQ_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-              String results = data.getStringExtra(ElementFaceAuthActivity.EXTRA_AUTH_RESULTS);
+              String results = data.getStringExtra(ElementFaceAuthActivity.EXTRA_RESULTS);
               if (ElementFaceAuthActivity.USER_VERIFIED.equals(results)) {
                   // The user is verified
               } else if (ElementFaceAuthActivity.USER_FAKE.equals(results)) {
@@ -200,7 +200,15 @@ User authentication is similar to user enrollment, using `ElementFaceAuthActivit
     ```
 
 ### User enquiries
-The Element Face SDK provides a few ways to query users with ProviderUtil.
+The Element Face SDK provides a few classes and methods to query user status.
+
+#### ElementFaceSDK
+- Find out if an user is enrolled
+    ```
+    public static boolean isEnrolled(String userId)
+    ```
+
+#### ProviderUtil
 - List alls users
     ```
     public static List<UserInfo> getUsers(@NonNull Context context, @NonNull String appId, String selection)
@@ -218,12 +226,6 @@ The Element Face SDK provides a few ways to query users with ProviderUtil.
     ```
     public static int updateUserInfo(@NonNull Context context, @NonNull UserInfo userInfo)
     public static void insertUserInfo(@NonNull Context context, @NonNull UserInfo userInfo)
-    ```
-
-The FaceModelMeta can be used to get the user enroll status.
-- Find out if an user is enrolled
-    ```
-    public static boolean isEnrolled(String userId)
     ```
 
 ### Questions?

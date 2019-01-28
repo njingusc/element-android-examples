@@ -95,7 +95,7 @@ public class UserDataFormFragment extends DialogFragment {
             return;
         }
 
-        UserInfo userInfo = UserInfo.enrollUser(
+        UserInfo userInfo = UserInfo.enrollNewUser(
                 mainActivity.getBaseContext(),
                 mainActivity.getPackageName(),
                 fStr,

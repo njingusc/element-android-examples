@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.element.camera.ElementFaceAuthActivity;
 import com.element.camera.ElementFaceEnrollActivity;
-import com.element.camera.FaceModelMeta;
+import com.element.camera.ElementFaceSDK;
 import com.element.camera.ProviderUtil;
 import com.element.camera.UserInfo;
 import com.element.common.PermissionUtils;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String userId = data.getStringExtra(ElementFaceAuthActivity.EXTRA_ELEMENT_USER_ID);
                 UserInfo userInfo = ProviderUtil.getUser(getBaseContext(), getPackageName(), userId);
-                String results = data.getStringExtra(ElementFaceAuthActivity.EXTRA_AUTH_RESULTS);
+                String results = data.getStringExtra(ElementFaceAuthActivity.EXTRA_RESULTS);
                 final String message;
                 if (ElementFaceAuthActivity.USER_VERIFIED.equals(results)) {
                     message = getString(R.string.msg_verified, userInfo.getFullName());
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected boolean isEnrolled(String userId) {
-        return FaceModelMeta.isEnrolled(userId);
+        return ElementFaceSDK.isEnrolled(userId);
     }
 
     protected void startEnroll(String userId) {

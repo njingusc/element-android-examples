@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.element.camera.FaceModelMeta;
+import com.element.camera.ElementFaceSDK;
 import com.element.camera.UserInfo;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapter.MyVie
             }
         }
 
-        if (FaceModelMeta.isEnrolled(userInfo.userId)) {
+        if (ElementFaceSDK.isEnrolled(userInfo.userId)) {
             myViewHolder.status.setVisibility(View.GONE);
         } else {
             myViewHolder.status.setVisibility(View.VISIBLE);
