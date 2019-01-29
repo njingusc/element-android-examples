@@ -1,6 +1,7 @@
 package com.element.fmex;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.element.camera.Capture;
 import com.element.camera.ElementFaceCaptureActivity;
@@ -16,10 +17,18 @@ public class FmActivity extends ElementFaceCaptureActivity {
     private ProgressDialogHelper progressDialogHelper;
 
     @Override
+    protected void onCreate(Bundle bundle) {
+        getIntent().putExtra(EXTRA_USER_APP_ID, getPackageName());
+        getIntent().putExtra(EXTRA_ELEMENT_USER_ID, getString(R.string.user_id));
+
+        super.onCreate(bundle);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (!PermissionUtils.isGranted(getBaseContext(), android.Manifest.permission.CAMERA)) {
-            toastMessage(R.string.msg_grantPermissions);
+            toastMessage("Please grant all permissions in Settings -> Apps");
             finish();
         }
     }
@@ -31,7 +40,7 @@ public class FmActivity extends ElementFaceCaptureActivity {
         }
         progressDialogHelper.showProgressDialog(FmActivity.this, getString(R.string.processing));
 
-        String userId = getString(R.string.user_id);
+        String userId = getIntent().getStringExtra(EXTRA_ELEMENT_USER_ID);
         new FmTask(faceMatchingTaskCallback).execute(userId, captures);
     }
 
