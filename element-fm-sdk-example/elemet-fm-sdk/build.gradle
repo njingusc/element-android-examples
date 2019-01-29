@@ -1,2 +1,2 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('element-fm-sdk-v1.fe001.fm.4.aar'))
+artifacts.add("default", file('element-face-sdk-[version].aar'))

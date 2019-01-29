@@ -3,10 +3,11 @@ package com.element.fmex;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Base64;
 
-import com.element.camera.ElementFaceSDK;
 import com.element.camera.Capture;
+import com.element.camera.ElementFaceCaptureActivity;
 import com.google.gson.Gson;
 
 import java.util.TimeZone;
@@ -34,8 +35,8 @@ class FmTask extends AsyncTask<Object, Void, Void> {
         builder.addHeader("appVersion", BuildConfig.VERSION_NAME);
         builder.addHeader("os", "ANDROID");
         builder.addHeader("appId", context.getPackageName());
-        builder.addHeader("deviceModel", ElementFaceSDK.getDeviceModel());
-        builder.addHeader("sdkVersion", ElementFaceSDK.getSdkVersion());
+        builder.addHeader("deviceModel", Build.MODEL);
+        builder.addHeader("sdkVersion", "1.0");
     }
 
     @Override
@@ -71,7 +72,7 @@ class FmTask extends AsyncTask<Object, Void, Void> {
         Image[] images;
 
         FmRequest() {
-            Location location = ElementFaceSDK.getLocation();
+            Location location = ElementFaceCaptureActivity.getLocation();
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             timeZone = TimeZone.getDefault().getID();

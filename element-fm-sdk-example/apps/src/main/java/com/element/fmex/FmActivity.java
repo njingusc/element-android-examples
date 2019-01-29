@@ -2,8 +2,8 @@ package com.element.fmex;
 
 import android.content.Context;
 
-import com.element.camera.ElementFaceCaptureActivity;
 import com.element.camera.Capture;
+import com.element.camera.ElementFaceCaptureActivity;
 import com.element.common.PermissionUtils;
 import com.google.gson.Gson;
 
