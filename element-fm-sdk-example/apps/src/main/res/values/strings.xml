@@ -1,5 +1,3 @@
 <resources>
     <string name="user_id">MOCK_USER_ID</string>
-    <string name="fm_url">MOCK_URL</string>
-    <string name="api_key">MOCK_API</string>
 </resources>

@@ -7,7 +7,7 @@ import android.os.Build;
 import android.util.Base64;
 
 import com.element.camera.Capture;
-import com.element.camera.ElementFaceCaptureActivity;
+import com.element.camera.ElementSDK;
 import com.google.gson.Gson;
 
 import java.util.TimeZone;
@@ -28,10 +28,11 @@ class FmTask extends AsyncTask<Object, Void, Void> {
 
     FmTask(FaceMatchingTaskCallback faceMatchingTaskCallback) {
         Context context = faceMatchingTaskCallback.getContext();
+        String url = ElementSDK.getApiUrl() + "/api/faceMatching";
         this.faceMatchingTaskCallback = faceMatchingTaskCallback;
-        this.builder = new Request.Builder().url(context.getString(R.string.fm_url));
+        this.builder = new Request.Builder().url(url);
 
-        builder.addHeader("apiKey", context.getString(R.string.api_key));
+        builder.addHeader("apiKey", ElementSDK.getApiKey());
         builder.addHeader("appVersion", BuildConfig.VERSION_NAME);
         builder.addHeader("os", "ANDROID");
         builder.addHeader("appId", context.getPackageName());
@@ -72,7 +73,7 @@ class FmTask extends AsyncTask<Object, Void, Void> {
         Image[] images;
 
         FmRequest() {
-            Location location = ElementFaceCaptureActivity.getLocation();
+            Location location = ElementSDK.getLocation();
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             timeZone = TimeZone.getDefault().getID();
