@@ -1,2 +1,2 @@
 include ':apps'
-include ':elemet-fm-sdk'
+include ':element-fm-sdk'

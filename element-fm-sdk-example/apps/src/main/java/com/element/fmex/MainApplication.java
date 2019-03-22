@@ -10,5 +10,6 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ElementFaceSDK.initSDK(MainApplication.this);
+        ElementFaceSDK.enableDebugMode(getBaseContext(), true);
     }
 }

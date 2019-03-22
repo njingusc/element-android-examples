@@ -34,14 +34,16 @@ public class FmActivity extends ElementFaceCaptureActivity {
     }
 
     @Override
-    public void onImageCaptured(Capture[] captures) {
-        if (progressDialogHelper == null) {
-            progressDialogHelper = new ProgressDialogHelper();
-        }
-        progressDialogHelper.showProgressDialog(FmActivity.this, getString(R.string.processing));
+    public void onImageCaptured(Capture[] captures, String resultCode) {
+        if (CAPTURE_RESULT_OK.equals(resultCode) || CAPTURE_RESULT_GAZE_OK.equals(resultCode)) {
+            if (progressDialogHelper == null) {
+                progressDialogHelper = new ProgressDialogHelper();
+            }
+            progressDialogHelper.showProgressDialog(FmActivity.this, getString(R.string.processing));
 
-        String userId = getIntent().getStringExtra(EXTRA_ELEMENT_USER_ID);
-        new FmTask(faceMatchingTaskCallback).execute(userId, captures);
+            String userId = getIntent().getStringExtra(EXTRA_ELEMENT_USER_ID);
+            new FmTask(faceMatchingTaskCallback).execute(userId, captures);
+        }
     }
 
     private FmTask.FaceMatchingTaskCallback faceMatchingTaskCallback = new FmTask.FaceMatchingTaskCallback() {

@@ -103,23 +103,34 @@ The Element FM SDK requires the *Encrypted Access Key* (*EAK*) file. The *EAK* f
     For the Android Marshmallow 6.0 (API 23) OS and up, make sure the permissions are granted before starting any Activity provided by the Element FM SDK.
 
 ### User face matching
-The Element FM SDK utilizes the `ElementFaceCaptureActivity` for face matching. It allows capturing selfies for further processing.
-1. Create a child class of the `ElementFaceCaptureActivity`
-1. Override the `onImageCaptured(Capture[] captures)` to receive the selfie images
-1. The `Capture` class contains the image data in bytes. Covert it if necessary
-1. Sent the captured image data to the server
+The Element FM SDK utilizes the `ElementFaceCaptureActivity` class for face matching. It allows capturing selfies for further processing on the server side.
+1. Create a child class of the `ElementFaceCaptureActivity` class
+1. Override the `onImageCaptured(Capture[] captures, String resultCode)` callback method to receive the selfie images
+1. The `Capture[]` object from the callback contains the JPEG image data in bytes
+1. The 'resultCode' string specifies the status of the captures
+1. Sent the captured image data to the server if there status is OK
 ```
     public class FmActivity extends ElementFaceCaptureActivity {
       @Override
-      public void onImageCaptured(Capture[] captures) {
-          for (Capture capture : captures) {
-              String encoded = Base64.encodeToString(capture.data, Base64.DEFAULT);
+      public void onImageCaptured(Capture[] captures, String resultCode) {
+          if (CAPTURE_RESULT_OK.equals(resultCode) || CAPTURE_RESULT_GAZE_OK.equals(resultCode)) {
+              for (Capture capture : captures) {
+                  String encoded = Base64.encodeToString(capture.data, Base64.DEFAULT);
+              }
+              .....
+              new FmTask(faceMatchingTaskCallback).execute(getId(), captures);
+              .....
+          } else {
+              .....
           }
-          .....
-          new FmTask(faceMatchingTaskCallback).execute(getId(), captures);
-          .....
       }
     }
+```
+
+### SDK Debug Mode
+The debug mode can be enabled with the Element FM SDK. It is disabled initially. Once the debug mode is turned on, all image captures will be sent to Element for investigation. Please use the feature if you need help from Element.
+```
+    ElementFaceSDK.enableDebugMode(getBaseContext(), true);
 ```
 
 ### Questions?
