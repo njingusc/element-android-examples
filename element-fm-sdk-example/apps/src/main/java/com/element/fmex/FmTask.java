@@ -28,11 +28,11 @@ class FmTask extends AsyncTask<Object, Void, Void> {
 
     FmTask(FaceMatchingTaskCallback faceMatchingTaskCallback) {
         Context context = faceMatchingTaskCallback.getContext();
-        String url = ElementSDK.getApiUrl() + "/api/faceMatching";
+        String url = context.getString(R.string.api_url) + "/api/faceMatching";
         this.faceMatchingTaskCallback = faceMatchingTaskCallback;
         this.builder = new Request.Builder().url(url);
 
-        builder.addHeader("apiKey", ElementSDK.getApiKey());
+        builder.addHeader("apiKey", context.getString(R.string.api_key));
         builder.addHeader("appVersion", BuildConfig.VERSION_NAME);
         builder.addHeader("os", "ANDROID");
         builder.addHeader("appId", context.getPackageName());
