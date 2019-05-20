@@ -3,13 +3,11 @@
 The Element FM (Face Matching) SDK provides an API library to authenticate users by taking selfie images on Android devices. The images will be processed on a server in order to obtain the matching results. This document contains information to integrate the Element FM SDK into an Android application by using Android Studio.
 
 ## Version Support
-- The Element FM SDK supports Android 5.0+ / API 21+ (Lollipop and up)
-- Android Studio 3.1.3 with Gradle 4.4
-- Last Target SDK Version: 27
-- Last Compiled Support Library Version: 27.1.0
-- Last Compiled Google Play Services Version: 15.0.1
-- AWS Mobile SDK: 2.6.+
-- Google Guava for Android: 23.5
+- The Element FM SDK requires Android 5.0+ / API 21+ (Lollipop and up)
+- Android Studio 3.2.0 with Gradle Wrapper 4.6
+- Android Target SDK Version 28, Build Tool Version 28.0.3, and AndroidX
+- AWS Mobile SDK: 2.8.+
+- Google Guava for Android: 27.0
 
 ## Prerequisites
 ### Element Dashboard
