@@ -6,8 +6,13 @@ The Element FM (Face Matching) SDK provides an API library to authenticate users
 - The Element FM SDK requires Android 5.0+ / API 21+ (Lollipop and up)
 - Android Studio 3.2.0 with Gradle Wrapper 4.6
 - Android Target SDK Version 28, Build Tool Version 28.0.3, and AndroidX
-- AWS Mobile SDK: 2.8.+
-- Google Guava for Android: 27.0
+- Android Material: 1.0.0
+- AndroidX Work Manager: 2.0.1
+- Google Play Service Location: 17.0.0
+- Google Guava for Android: 27.0.1-android
+- AWS Mobile SDK: 2.8.5
+
+Check the `dependencies` block in the [build.gradle](https://github.com/Element1/element-android-examples/blob/master/element-fm-sdk-example/apps/build.gradle) in the example project for more details.
 
 ## Prerequisites
 ### Element Dashboard
@@ -46,15 +51,21 @@ The Element FM SDK requires the *Encrypted Access Key* (*EAK*) file. The *EAK* f
 1. Add the following dependencies to the module-level `build.gradle`:
     ```
         dependencies {
-          .....
-          implementation 'com.android.support:appcompat-v7:27.1.0'
-          implementation 'com.amazonaws:aws-android-sdk-core:2.6.+'
-          implementation 'com.amazonaws:aws-android-sdk-s3:2.6.+'
-          implementation 'com.google.android.gms:play-services-location:+'
-          implementation 'com.google.guava:guava:23.5-android'
+            .....
+            implementation 'androidx.work:work-runtime:2.0.1'
+            implementation 'com.amazonaws:aws-android-sdk-core:2.8.5'
+            implementation 'com.amazonaws:aws-android-sdk-s3:2.8.5'
+            implementation 'com.google.android.gms:play-services-location:17.0.0'
+            implementation 'com.google.android.material:material:1.0.0'
+            implementation 'com.google.guava:guava:27.0.1-android'
         }
     ```
     Note that you might have already declared some of these dependencies in your module-level `build.gradle` file, so please make sure you did not declare them twice. And you might also have to tweak a little bit on the versions of the dependencies as well as `compileSdkVersion` and `targetSdkVersion` in the `build.gradle`. Please follow the Android Studio's prompts on this. More information can be found [here](https://developer.android.com/studio/build/#module-level).
+1. In gradle.properties, add the following lines to enable AndroidX support:
+    ```
+        android.useAndroidX=true
+        android.enableJetifier=true
+    ```
 1. Wait for the Android Studio to sync.
 
 ### Include the EAK in the application
