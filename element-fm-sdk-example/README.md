@@ -3,14 +3,18 @@
 The Element FM (Face Matching) SDK provides an API library to authenticate users by taking selfie images on Android devices. The images will be processed on a server in order to obtain the matching results. This document contains information to integrate the Element FM SDK into an Android application by using Android Studio.
 
 ## Version Support
+### Android SDK & Android Studio
 - The Element FM SDK requires Android 5.0+ / API 21+ (Lollipop and up)
-- Android Studio 3.2.0 with Gradle Wrapper 4.6
 - Android Target SDK Version 28, Build Tool Version 28.0.3, and AndroidX
-- Android Material: 1.0.0
+- Android Studio 3.2.0 with Gradle Wrapper 4.6
+
+### Dependencies
 - AndroidX Work Manager: 2.0.1
+- AndroidX Kotlin extensions: 1.0.1
 - Google Play Service Location: 17.0.0
+- Google Material Design: 1.0.0
 - Google Guava for Android: 27.0.1-android
-- AWS Mobile SDK: 2.8.5
+- Amazon AWS Mobile SDK: 2.8.5
 
 Check the `dependencies` block in the [build.gradle](https://github.com/Element1/element-android-examples/blob/master/element-fm-sdk-example/apps/build.gradle) in the example project for more details.
 
@@ -53,6 +57,7 @@ The Element FM SDK requires the *Encrypted Access Key* (*EAK*) file. The *EAK* f
         dependencies {
             .....
             implementation 'androidx.work:work-runtime:2.0.1'
+            implementation "androidx.core:core-ktx:1.0.1"
             implementation 'com.amazonaws:aws-android-sdk-core:2.8.5'
             implementation 'com.amazonaws:aws-android-sdk-s3:2.8.5'
             implementation 'com.google.android.gms:play-services-location:17.0.0'
@@ -117,12 +122,17 @@ The Element FM SDK utilizes the `ElementFaceCaptureActivity` class for face matc
 1. Override the `onImageCaptured(Capture[] captures, String resultCode)` callback method to receive the selfie images
 1. The `Capture[]` object from the callback contains the JPEG image data in bytes
 1. The 'resultCode' string specifies the status of the captures
-1. Sent the captured image data to the server if there status is OK
+1. Sent the captured image data to the server if the status code is OK
 ```
     public class FmActivity extends ElementFaceCaptureActivity {
+
       @Override
-      public void onImageCaptured(Capture[] captures, String resultCode) {
-          if (CAPTURE_RESULT_OK.equals(resultCode) || CAPTURE_RESULT_GAZE_OK.equals(resultCode)) {
+      public void onImageCaptured(@Nullable Capture[] captures, @NonNull String code) {
+          if (CAPTURE_STATUS_VALID_CAPTURES.equals(code)) {
+              // CAPTURE_STATUS_VALID_CAPTURES is returned when frames are captured but before processing. It's possible to update UI here.
+              .....
+          } else if (CAPTURE_RESULT_OK.equals(code) || CAPTURE_RESULT_GAZE_OK.equals(code)) {
+              // CAPTURE_RESULT_OK & CAPTURE_RESULT_GAZE_OK both indicate the frames are processed, and they are ready to post to the server.
               for (Capture capture : captures) {
                   String encoded = Base64.encodeToString(capture.data, Base64.DEFAULT);
               }
@@ -130,6 +140,7 @@ The Element FM SDK utilizes the `ElementFaceCaptureActivity` class for face matc
               new FmTask(faceMatchingTaskCallback).execute(getId(), captures);
               .....
           } else {
+              // Other error codes
               .....
           }
       }

@@ -3,6 +3,9 @@ package com.element.fmex;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.element.camera.Capture;
 import com.element.camera.ElementFaceCaptureActivity;
 import com.element.common.PermissionUtils;
@@ -34,15 +37,19 @@ public class FmActivity extends ElementFaceCaptureActivity {
     }
 
     @Override
-    public void onImageCaptured(Capture[] captures, String resultCode) {
-        if (CAPTURE_RESULT_OK.equals(resultCode) || CAPTURE_RESULT_GAZE_OK.equals(resultCode)) {
+    public void onImageCaptured(@Nullable Capture[] captures, @NonNull String code) {
+        if (CAPTURE_RESULT_OK.equals(code) || CAPTURE_RESULT_GAZE_OK.equals(code) || CAPTURE_STATUS_VALID_CAPTURES.equals(code)) {
             if (progressDialogHelper == null) {
                 progressDialogHelper = new ProgressDialogHelper();
             }
             progressDialogHelper.showProgressDialog(FmActivity.this, getString(R.string.processing));
 
-            String userId = getIntent().getStringExtra(EXTRA_ELEMENT_USER_ID);
-            new FmTask(faceMatchingTaskCallback).execute(userId, captures);
+            if (captures != null) {
+                String userId = getIntent().getStringExtra(EXTRA_ELEMENT_USER_ID);
+                new FmTask(faceMatchingTaskCallback).execute(userId, captures);
+            }
+        } else if (CAPTURE_RESULT_NO_FACE.equals(code) || CAPTURE_RESULT_GAZE_FAILED.equals(code)) {
+            showResult(getString(R.string.capture_failed), R.drawable.icon_focus);
         }
     }
 
